@@ -43,6 +43,9 @@ app.jinja_env.filters['timestamp'] = lambda x: datetime.fromtimestamp(x)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
 
+os.makedirs(join_root('data'), exist_ok=True)
+os.makedirs(join_root('traces'), exist_ok=True)
+
 
 @app.before_request
 def setup_thread_request():
@@ -146,12 +149,12 @@ def results_data(d):
 
 @app.route('/traces')
 def test_suite():
-    idx = 0
-    while True:
+    for f in list(find_data_files('traces')):
         try:
-            return traces(int(os.path.splitext(list(find_data_files('traces'))[idx])[0]))
+            return traces(int(os.path.splitext(f)[0]))
         except:
-            idx += 1
+            continue
+    abort(404)
 
 
 @app.route('/traces/<int:traces_id>')
