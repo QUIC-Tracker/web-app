@@ -2,7 +2,7 @@
   "name": "quic-tracker",
   "version": "0.1",
   "main": "quic-tracker.py",
-  "repository": "https://github.com/mpiraux/master-thesis",
+  "repository": "https://github.com/QUIC-Tracker/web-app",
   "author": "Maxime Piraux",
   "license": "AGPL-3.0",
   "private": false,
