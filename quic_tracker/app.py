@@ -21,8 +21,7 @@ from base64 import b64decode
 from datetime import datetime
 
 import yaml
-from flask import Flask, jsonify, request, url_for, abort, make_response
-from flask import redirect
+from flask import Flask, jsonify, request, url_for, abort, make_response, redirect
 from flask.templating import render_template
 from sqlobject import LIKE
 from sqlobject import OR
@@ -40,6 +39,7 @@ app.jinja_env.filters['is_tuple'] = is_tuple
 app.jinja_env.filters['decode'] = decode
 app.jinja_env.filters['pretty_json'] = lambda x: json.dumps(x, indent=2, separators=(',', ':'))
 app.jinja_env.filters['timestamp'] = lambda x: datetime.fromtimestamp(x)
+app.jinja_env.globals['allow_upload'] = os.environ.get('QUIC_TRACKER_ALLOW_UPLOAD', '0') != '0'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['EXPLAIN_TEMPLATE_LOADING'] = True
 
@@ -199,6 +199,28 @@ def dissector(traces_id, trace_idx):
                            next=url_for('dissector', traces_id=next_id, trace_idx=next_trace_idx) if next_trace_idx is not None else '',
                            secrets_link=url_for('trace_secrets', traces_id=traces_id, trace_idx=trace_idx) if trace.get('exporter_secret') else None)
 
+
+if os.environ.get('QUIC_TRACKER_ALLOW_UPLOAD', '0') != '0':
+    @app.route('/traces/post', methods=['POST'])
+    def post_trace():
+        if 'trace' in request.form:
+            trace = json.loads(request.form['trace'])
+            if type(trace) is list:
+                trace = trace[0]
+
+            with open(join_root('scenarii.yaml')) as f:
+                scenarii = yaml.load(f)
+
+            trace = parse_trace(trace)
+
+            return render_template('dissector.html', trace=trace, scenario=scenarii[trace['scenario']],
+                                   pcap_link=None,
+                                   decrypted_pcap_link=None,
+                                   previous=None,
+                                   next=None,
+                                   secrets_link=None)
+
+        return redirect(url_for('index'))
 
 def serve_trace(traces_id, trace, pcap):
     response = make_response(b64decode(pcap))

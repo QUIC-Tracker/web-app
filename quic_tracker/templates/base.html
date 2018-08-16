@@ -101,6 +101,9 @@
                         <li class="{{ 'active' if 'tracker' in request.path else '' }}"><a href="{{ url_for('tracker') }}">Tracker</a></li>
                         <li class="{{ 'active' if 'traces' in request.path else '' }}"><a href="{{ url_for('test_suite') }}">Test suite</a></li>
                         <li class="{{ 'active' if 'about' in request.path else '' }}"><a href="{{ url_for('about') }}">About</a></li>
+                        {% if allow_upload %}
+                        <li><a data-toggle="modal" data-target="#post-trace-modal"><i class="fa fa-plus"></i></a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -122,6 +125,29 @@
         <span class="pull-right"><b><a href="https://uclouvain.be" target="_blank">Université catholique de Louvain</a></b><span>
     </footer>
 </div>
+{% if allow_upload %}
+<div class="modal fade" id="post-trace-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Visualize a trace</h4>
+            </div>
+            <form action="{{ url_for('post_trace') }}" method="post">
+                <div class="modal-body">
+                    <textarea style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box; width: 100%;" title="trace" name="trace"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 {% block js %}
 <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
