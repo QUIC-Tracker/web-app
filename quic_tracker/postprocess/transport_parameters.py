@@ -25,7 +25,7 @@ _version_to_p_name = {
         7: 'ack_delay_exponent',
         8: 'initial_max_stream_id_uni'
     },
-    0xff000011: {
+    0xff00000b: {
         0: 'initial_max_stream_data',
         1: 'initial_max_data',
         2: 'initial_max_stream_id_bidi',
@@ -33,7 +33,10 @@ _version_to_p_name = {
         5: 'max_packet_size',
         6: 'stateless_reset_token',
         7: 'ack_delay_exponent',
-        8: 'initial_max_stream_id_uni'
+        8: 'initial_max_stream_id_uni',
+        9: 'disable_migration',  # TODO: put this in the correct version
+        10: 'initial_max_stream_data_bidi_remote',
+        11: 'initial_max_stream_data_bidi_uni'
     }
 }
 
@@ -87,11 +90,10 @@ def sum_traces(traces):
 def parse_parameter(p_type, p_value, version):
     if version <= 0xff000007:
         p_type = _version_to_p_name[0xff000007][p_type]
-    if 0xff000008 <= version <= 0xff000010:
+    if 0xff000008 <= version <= 0xff00000a:
         p_type = _version_to_p_name[0xff000008][p_type]
     else:
-        print(version)
-        p_type = _version_to_p_name[0xff000011][p_type]
+        p_type = _version_to_p_name[0xff00000b][p_type]
 
     return p_type, int.from_bytes(b64decode(p_value), byteorder='big')
 

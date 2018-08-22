@@ -50,7 +50,7 @@ def get_versions(traces):
 
         if 'supported_versions' not in t['results']:
             t['results']['supported_versions'] = set()
-            for p in t['stream']:
+            for p in t['stream'] or []:
                 if p['direction'] == 'to_client':
                     t['results']['supported_versions'].update(read_version_negotiation_packet(b64decode(p['data'])))
 
@@ -59,7 +59,7 @@ def get_versions(traces):
             versions[v] = versions.get(v, 0) + 1
 
         if len(t['results']['supported_versions']) == 0:
-            for p in t['stream']:
+            for p in t['stream'] or []:
                 read_version_negotiation_packet(p['data'])
 
         results[date] = versions

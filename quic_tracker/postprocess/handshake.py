@@ -15,7 +15,7 @@ def handshake_versions(traces):
         if (date, t['host']) in marked:
             continue
 
-        if t['error_code'] == 0:
+        if t['error_code'] == 0 and 'negotiated_version' in t['results']:
             v = t['results']['negotiated_version']
             versions = results.get(date, {})
             versions[v] = versions.get(v, 0) + 1
