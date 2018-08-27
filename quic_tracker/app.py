@@ -228,7 +228,7 @@ def grid(traces_id):
         scenarii_results[t['scenario']] = d
 
     cells = []
-    for s in sorted(scenarii_results):
+    for s in reversed(sorted(scenarii_results)):
         s_traces = sorted(scenarii_results[s], key=lambda t: t[1]['host'])
         cells.append([(i, s, t['host'], t['error_code'], )for i, t in s_traces])
 

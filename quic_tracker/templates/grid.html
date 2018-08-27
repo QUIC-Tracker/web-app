@@ -118,18 +118,25 @@
                     </tr>
                 {% endfor %}
             </table>
-            <table cellpadding="0" cellspacing="0" style="display: inline-block; margin-left: 40px;">
-                <tr>
-                    <td class="result result-success"><a><div></div></a></td>
-                    <td class="result result-failure"><a><div></div></a></td>
-                    <td class="result result-error"><a><div></div></a></td>
-                </tr>
-                <tr class="explanation">
-                    <th class="rotate"><div><span>The test passed</span></div></th>
-                    <th class="rotate"><div><span>The test failed</span></div></th>
-                    <th class="rotate"><div><span>The test could not execute</span></div></th>
-                </tr>
-            </table>
+            <div style="display: inline-block; margin-left: 100px; vertical-align: top;">
+                <h4>Legend:</h4>
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="result result-success"><a><div></div></a></td>
+                        <td class="result result-failure"><a><div></div></a></td>
+                        <td class="result result-error"><a><div></div></a></td>
+                    </tr>
+                    <tr class="explanation">
+                        <th class="rotate"><div><span>The test passed</span></div></th>
+                        <th class="rotate"><div><span>The test failed</span></div></th>
+                        <th class="rotate"><div><span>The test could not execute</span></div></th>
+                    </tr>
+                </table>
+                <p style="margin-top: 20px">
+                    Click the cells to get to the detailed test results.<br>
+                    Over them to get a preview of the test outcome.
+                </p>
+            </div>
         </div>
     </div>
 {% endblock %}
