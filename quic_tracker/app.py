@@ -200,6 +200,61 @@ def dissector(traces_id, trace_idx):
                            secrets_link=url_for('trace_secrets', traces_id=traces_id, trace_idx=trace_idx) if trace.get('exporter_secret') else None)
 
 
+@app.route('/grid')
+def latest_grid():
+    for f in list(find_data_files('traces')):
+        try:
+            return grid(int(os.path.splitext(f)[0]))
+        except:
+            raise
+            continue
+    abort(404)
+
+
+@app.route('/grid/<int:traces_id>')
+def grid(traces_id):
+    traces = get_traces(traces_id)
+    if traces is None:
+        abort(404)
+
+    with open(join_root('scenarii.yaml')) as f:
+        scenarii = yaml.load(f)
+
+    scenarii_results = {}
+
+    for i, t in enumerate(traces):
+        d = scenarii_results.get(t['scenario'], [])
+        d.append((i, t))
+        scenarii_results[t['scenario']] = d
+
+    cells = []
+    for s in sorted(scenarii_results):
+        s_traces = sorted(scenarii_results[s], key=lambda t: t[1]['host'])
+        cells.append([(i, s, t['host'], t['error_code'], )for i, t in s_traces])
+
+    cells = list(zip(*reversed(cells)))
+
+    return render_template('grid.html', traces_id=traces_id, date=datetime.strptime(str(traces_id), '%Y%m%d').date(),
+                           cells=cells, scenarii=scenarii)
+
+
+@app.template_filter('error_class')
+def error_class(code, scenario):
+    error_types = scenario.get('error_types', {})
+
+    if code is 0:
+        return 'success'
+
+    if code in (254, 255):
+        return 'error'
+
+    for t in error_types:
+        if code in error_types[t]:
+            return t
+
+    return 'unknown'
+
+
 if os.environ.get('QUIC_TRACKER_ALLOW_UPLOAD', '0') != '0':
     @app.route('/traces/post', methods=['POST'])
     def post_trace():
@@ -221,6 +276,7 @@ if os.environ.get('QUIC_TRACKER_ALLOW_UPLOAD', '0') != '0':
                                    secrets_link=None)
 
         return redirect(url_for('index'))
+
 
 def serve_trace(traces_id, trace, pcap):
     response = make_response(b64decode(pcap))

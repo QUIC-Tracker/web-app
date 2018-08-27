@@ -1,0 +1,141 @@
+{#
+    QUIC-Tracker
+    Copyright (C) 2017-2018  Maxime Piraux
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License version 3
+    as published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends 'base.html' %}
+{% block header %}
+    <h1>QUIC tests grid</h1>
+    <small>{{ date }}</small>
+{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+        table td.result {
+            text-align: center;
+        }
+
+        table td.result a div {
+            width: 40px;
+            height: 40px;
+        }
+
+        table td.result.result-success {
+            background-color: limegreen;
+        }
+
+        table td.result.result-failure {
+            background-color: orangered;
+        }
+
+        table td.result.result-error {
+            background-color: lightgray;
+        }
+
+        table thead th {
+            writing-mode: vertical-lr;
+            -webkit-writing-mode: vertical-lr;
+            -ms-writing-mode: lr-bt;
+        }
+
+        th.rotate {
+            height: 190px;
+            white-space: nowrap;
+        }
+
+        th.rotate > div {
+            transform: translate(25px, 77px) rotate(315deg);
+            width: 30px;
+        }
+
+        th.rotate > div > span {
+            border-bottom: 1px solid #ccc;
+            padding: 5px 10px;
+        }
+
+        table tr th {
+            border-bottom: 1px solid #ccc;
+        }
+
+        table tr td {
+            border: 1px solid gray;
+        }
+
+        .explanation tr.rotate {
+            border-bottom: none !important;
+        }
+
+        .explanation th.rotate {
+            border-bottom: none !important;
+            height: 140px;
+            white-space: nowrap;
+        }
+
+        .explanation th.rotate > div {
+            transform: translate(7px, -68px) rotate(45deg);
+            width: 30px;
+        }
+
+        .explanation th.rotate > div > span {
+            padding: 5px 10px 5px 30px;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="box">
+        <div class="box-body">
+            <table style="display: inline-block">
+                <thead>
+                <th></th>
+                {% for col in cells[0] %}
+                    <th class="rotate"><div><span>{{ scenarii[col[1]].name }}</span></div></th>
+                {% endfor %}
+                </thead>
+                {% for row in cells %}
+                    <tr>
+                        <th>{{ row[0][2] }}</th>
+                        {% for c in row %}
+                            {% set id, s, _, code = c %}
+                            {% set scenario = scenarii[s] %}
+                            <td class="result result-{{ code|error_class(scenario) }}" data-tooltip="tooltip" title="{{ print_test_error_code(code, scenario) }}" data-container="body">
+                                <a href="{{ url_for('dissector', traces_id=traces_id, trace_idx=id) }}">
+                                    <div></div>
+                                </a>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <table cellpadding="0" cellspacing="0" style="display: inline-block; margin-left: 40px;">
+                <tr>
+                    <td class="result result-success"><a><div></div></a></td>
+                    <td class="result result-failure"><a><div></div></a></td>
+                    <td class="result result-error"><a><div></div></a></td>
+                </tr>
+                <tr class="explanation">
+                    <th class="rotate"><div><span>The test passed</span></div></th>
+                    <th class="rotate"><div><span>The test failed</span></div></th>
+                    <th class="rotate"><div><span>The test could not execute</span></div></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    <script>
+        $('[data-toggle="tooltip"]').tooltip()
+    </script>
+{% endblock %}

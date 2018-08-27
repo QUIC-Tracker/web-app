@@ -36,50 +36,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>QUIC Tracker</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='node_modules/font-awesome/css/font-awesome.min.css') }}">
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='node_modules/datatables.net-bs/css/dataTables.bootstrap.css') }}">
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/singleStack.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/admin-lte/dist/css/AdminLTE.min.css') }}">
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='node_modules/admin-lte/dist/css/skins/skin-black.min.css') }}">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <style>
-        .info-box-content {
-            margin-left: initial;
-        }
+    {% block head %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='node_modules/font-awesome/css/font-awesome.min.css') }}">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='node_modules/datatables.net-bs/css/dataTables.bootstrap.css') }}">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='css/singleStack.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/admin-lte/dist/css/AdminLTE.min.css') }}">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='node_modules/admin-lte/dist/css/skins/skin-black.min.css') }}">
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <style>
+            .info-box-content {
+                margin-left: initial;
+            }
 
-        .info-box .progress .progress-bar {
-            background: #337ab7;
-        }
+            .info-box .progress .progress-bar {
+                background: #337ab7;
+            }
 
-        code {
-            padding: 2px 2px;
-            color: initial;
-            background-color: initial;
-        }
+            code {
+                padding: 2px 2px;
+                color: initial;
+                background-color: initial;
+            }
 
-        table.stream td, table.stream th {
-            padding: 2px !important;
-            padding-left: 8px !important;
-        }
+            table.stream td, table.stream th {
+                padding: 2px !important;
+                padding-left: 8px !important;
+            }
 
-        code.char {
-            padding: 0;
-        }
+            code.char {
+                padding: 0;
+            }
 
-        tr[data-href]{
-            cursor: pointer;
-        }
+            tr[data-href]{
+                cursor: pointer;
+            }
 
-        table.dataTable.stream thead .sorting:after, table.dataTable.stream thead .sorting_asc:after, table.dataTable.stream thead .sorting_desc:after, table.dataTable.stream thead .sorting_asc_disabled:after, table.dataTable.stream thead .sorting_desc_disabled:after {
-            bottom: 1px !important;
-        }
-    </style>
+            table.dataTable.stream thead .sorting:after, table.dataTable.stream thead .sorting_asc:after, table.dataTable.stream thead .sorting_desc:after, table.dataTable.stream thead .sorting_asc_disabled:after, table.dataTable.stream thead .sorting_desc_disabled:after {
+                bottom: 1px !important;
+            }
+        </style>
+    {% endblock %}
 </head>
 
 <body class="hold-transition skin-black layout-top-nav">
