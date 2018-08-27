@@ -95,6 +95,7 @@ Long Header:
         - Token:
             length: set
   - Token:
+      length: 0
       conditions:
         - Long Packet Type:
             eq: '0x7f'
@@ -104,8 +105,14 @@ Long Header:
       triggers:
         - Payload:
             byte_length: set
+      conditions:
+        - Long Packet Type:
+            neq: '0x7e'
   - Packet Number:
       length: pn
+      conditions:
+        - Long Packet Type:
+            neq: '0x7e'
   - Payload:
       conditions:
         - Long Packet Type:
@@ -126,6 +133,7 @@ Retry Packet:
       format: hex
   - Retry Token:
       length: '*'
+      format: bytes
 Short Header:
   - Header Form:
       length: 1
