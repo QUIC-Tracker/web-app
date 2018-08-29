@@ -230,7 +230,7 @@ def grid(traces_id):
     cells = []
     for s in reversed(sorted(scenarii_results)):
         s_traces = sorted(scenarii_results[s], key=lambda t: t[1]['host'])
-        cells.append([(i, s, t['host'], t['error_code'], )for i, t in s_traces])
+        cells.append([(i, s, t['host'], t['error_code']) for i, t in s_traces])
 
     cells = list(zip(*reversed(cells)))
 
