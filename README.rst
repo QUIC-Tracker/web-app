@@ -8,6 +8,6 @@ It is known to be working with Python 3.6, but it should be compatible with earl
 Installation
 ------------
 
-- ``pip3 install --upgrade git+https://github.com/QUIC-Tracker/web-app``
+- ``pip3 install --upgrade git+https://github.com/QUIC-Tracker/dissector git+https://github.com/QUIC-Tracker/web-app``
 - Fetch web dependencies using ``yarn install`` in ``quic_tracker/static``
 - Output files from the test suite should be placed into `quic_tracker/traces` with a name in the format `\d*.json`
