@@ -100,7 +100,7 @@
                 <thead>
                 <th></th>
                 {% for col in cells[0] %}
-                    <th class="rotate"><div><span>{{ scenarii[col[1]].name }}</span></div></th>
+                    <th class="rotate" data-tooltip="tooltip" title="{{ scenarii[col[1]].description  }}" data-container="body"><div><span>{{ scenarii[col[1]].name }}</span></div></th>
                 {% endfor %}
                 </thead>
                 {% for row in cells %}
@@ -135,6 +135,7 @@
                 <p style="margin-top: 20px">
                     Click the cells to get to the detailed test results.<br>
                     Hover them to get a preview of the test outcome.
+                    Hover the test name to get its description.
                 </p>
             </div>
         </div>
