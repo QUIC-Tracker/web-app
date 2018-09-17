@@ -166,7 +166,7 @@ def traces(traces_id):
     with open(join_root('scenarii.yaml')) as f:
         scenarii = yaml.load(f)
 
-    return render_template('traces.html', traces_id=traces_id, traces=traces, date=datetime.strptime(str(traces_id), '%Y%m%d').date(), scenarii=scenarii)
+    return render_template('traces.html', traces_id=traces_id, traces=traces, date=datetime.strptime('{:08d}'.format(traces_id), '%Y%m%d').date(), scenarii=scenarii)
 
 
 @app.route('/traces/<int:traces_id>/<int:trace_idx>')
@@ -234,7 +234,7 @@ def grid(traces_id):
 
     cells = list(zip(*reversed(cells)))
 
-    return render_template('grid.html', traces_id=traces_id, date=datetime.strptime(str(traces_id), '%Y%m%d').date(),
+    return render_template('grid.html', traces_id=traces_id, date=datetime.strptime('{:08d}'.format(traces_id), '%Y%m%d').date(),
                            cells=cells, scenarii=scenarii)
 
 
