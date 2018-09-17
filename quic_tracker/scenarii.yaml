@@ -289,7 +289,7 @@ transport_parameters:
 unsupported_tls_version:
   name: Unsupported TLS version
   description: |
-    This tests asserts the correct behavior of the host when encountering an unsupported TLS version, i.e. closing the connection with error code <code>TLS_HANDSHAKE_FAILED (0x201)</code>.
+    This tests asserts the correct behavior of the host when encountering an unsupported TLS version, i.e. closing the connection with error code TLS alert <code>protocol_version (0x146)</code>.
   error_codes:
     1: The host did not close the connection
     2: The host closed the connection with an incorrect error code
