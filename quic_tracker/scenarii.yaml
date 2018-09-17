@@ -31,6 +31,8 @@ ack_ecn:
       - 3
       - 4
       - 5
+  tags:
+    - post-handshake
 ack_only:
   name: ACK only
   description: |
@@ -43,6 +45,8 @@ ack_only:
       - 1
     failure:
       - 2
+  tags:
+    - post-handshake
 address_validation:
   name: Address validation
   description: |
@@ -55,6 +59,8 @@ address_validation:
       - 1
     failure:
       - 2
+  tags:
+    - post-handshake
 connection_migration:
   name: Connection Migration
   description: |
@@ -71,6 +77,8 @@ connection_migration:
     failure:
       - 3
       - 4
+  tags:
+    - post-handshake
 flow_control:
   name: Flow control
   description: |
@@ -90,6 +98,10 @@ flow_control:
       - 2
       - 3
       - 4
+    success:
+      - 5  # This was erroneously marked as an error
+  tags:
+    - post-handshake
 handshake:
   name: Handshake
   description: |
@@ -168,6 +180,10 @@ http_get_and_wait:
       - 7
       - 9
       - 10
+    success:
+      - 3  # This was erroneously marked as an error
+  tags:
+    - post-handshake
 http_get_on_uni_stream:
   name: HTTP GET on stream 2
   description: |
@@ -182,12 +198,14 @@ http_get_on_uni_stream:
   error_types:
     error:
       - 1
-    failure:
       - 2
+    failure:
       - 3
       - 4
       - 5
       - 6
+  tags:
+    - post-handshake
 multi_stream:
   name: Multiple streams
   description: |
@@ -202,6 +220,8 @@ multi_stream:
     failure:
       - 2
       - 3
+  tags:
+    - post-handshake
 new_connection_id:
   name: New Connection ID
   description: |
@@ -214,10 +234,12 @@ new_connection_id:
   error_types:
     error:
       - 1
-    failure:
       - 2
+    failure:
       - 3
       - 4
+  tags:
+    - post-handshake
 padding:
   name: Padding only
   description: |
@@ -242,10 +264,12 @@ stop_sending_frame_on_receive_stream:
   error_types:
     error:
       - 1
+      - 4
     failure:
       - 2
       - 3
-      - 4
+  tags:
+    - post-handshake
 transport_parameters:
   name: Transport Parameters
   description: |
@@ -277,7 +301,7 @@ unsupported_tls_version:
       - 2
       - 3
       - 4
-version_negotiation:
+version_negotiation: &vneg
   name: Version Negotiation
   description: |
     This test will explicitly initiate the version negotiation process by setting the Initial packet version to <code>0x1a2a3a4a</code>. It will record the version negotiation advertised by the host if any. If a Version Negotiation packet is received, other Initial will be sent to check the Unused fields received to be random.
@@ -294,6 +318,8 @@ version_negotiation:
       - 3
       - 4
       - 5
+version_negotation:
+  *vneg
 zero_rtt:
   name: 0-RTT
   description: This test performs a regular 1-RTT connection then close it and uses the resumption secret to establish a 0-RTT connection. A HTTP GET request is performed during 0-RTT connection establishment and the host is checked to answer the request.
@@ -309,6 +335,8 @@ zero_rtt:
       - 2
       - 3
       - 4
+  tags:
+    - post-handshake
 stream_opening_reordering:
   name: Stream opening reordering
   description: |
@@ -321,6 +349,8 @@ stream_opening_reordering:
       - 1
     failure:
       - 2
+  tags:
+    - post-handshake
 http_get:
   name: CLI HTTP GET
   description: ~
