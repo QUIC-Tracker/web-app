@@ -206,6 +206,20 @@ http_get_on_uni_stream:
       - 6
   tags:
     - post-handshake
+key_update:
+  name: Key update
+  description: |
+    This test performs a 1-RTT handshake and then triggers a key update upon completion. An HTTP request is send with the new keys. The server completes the test if it is able to switch to the new keys and respond to the request.
+  error_codes:
+    1: The TLS handshake failed
+    2: The server did not respond using the new keys
+  error_types:
+    error:
+      - 1
+    failure:
+      - 2
+  tags:
+    - post-handshake
 multi_stream:
   name: Multiple streams
   description: |
