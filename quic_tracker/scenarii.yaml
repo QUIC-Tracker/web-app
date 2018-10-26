@@ -242,9 +242,10 @@ new_connection_id:
     This test checks the support of the <code>NEW_CONNECTION_ID</code> frame, if sent by the server. The test will change the connection ID used to the first alternative CID provided by the server and provide one to the server. Then it will perform an HTTP/0.9 GET request. It will record whether or not the host has responded to the request, and protected the client anonymity by changing its CID.
   error_codes:
     1: The handshake did not complete
-    2: The host did not provide alternative connection IDs
+    2: The host did not provide new connection IDs
     3: When using the first of the alternative connection IDs, the host stopped responding
     4: When using the first of the alternative connection IDs, the host responded without changing the connection ID
+    5: The host sent a connection ID with an invalid length
   error_types:
     error:
       - 1
@@ -266,6 +267,22 @@ padding:
       - 1
     success:
       - 2
+retire_connection_id:
+  name: Retire Connection ID
+  description: |
+    This test retires the first batch of connection IDs received in <code>NEW_CONNECTION_ID</code> frames. The server should send new connection IDs in response.
+  error_codes:
+    1: The TLS handshake failed
+    2: The host did not provide new connection IDs
+    3: After retiring all connection IDs received, the server did not send new ones.
+    4: The host sent a connection ID with an invalid length
+  error_types:
+    error:
+      - 1
+    failure:
+      - 2
+      - 3
+      - 4
 stop_sending_frame_on_receive_stream:
   name: STOP_SENDING frame on a receive stream
   description: |
