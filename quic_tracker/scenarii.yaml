@@ -279,8 +279,8 @@ retire_connection_id:
   error_types:
     error:
       - 1
-    failure:
       - 2
+    failure:
       - 3
       - 4
 stop_sending_frame_on_receive_stream:
