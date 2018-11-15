@@ -20,34 +20,46 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="box box-">
                 <div class="box-body">
-                    <h3>What is this website for ?</h3>
-                    <p>This web site serves two purposes:</p>
+                    <h4>What is this website for ?</h4>
+
+                    <p>This website hosts a public instance of the
+                        <a href="https://github.com/QUIC-Tracker/quic-tracker" target="_blank">
+                            QUIC-Tracker
+                        </a>
+                        tool.
+                    </p>
+
                     <p>
-                        It collects HTTP <code>Alt-Svc</code> headers sent by web-servers of popular domain names in the
-                        hope of discovering IETF-QUIC capable hosts. It lists the versions advertised by the hosts,
-                        if any.
-                    <p>
-                    <p>
-                        It also runs a test suite that exchanges packets with IETF-QUIC implementations to verify
+                        It is a test suite that exchanges packets with IETF-QUIC implementations to verify
                         whether an implementation conforms with the IETF specification of QUIC. The test suite is
                         consisting of several test scenarii. Each of them aims at testing a particular feature of the
                         QUIC protocol. The test suite runs daily, and its results are available on this website.
                     </p>
 
-                    <h3>What is the purpose of this effort ?</h3>
                     <p>
-                        This work is part of my master thesis for my master's degree in Computer Science at
-                        <a href="https://uclouvain.be" target="_blank">Université catholique de Louvain</a>. It is
-                        supervised by Pr. Olivier Bonaventure and Quentin De Coninck.
+                        A paper that summarise this work and the results that were gathered over a semester has been
+                        accepted at <a href="https://conferences2.sigcomm.org/co-next/2018/#!/workshop-epiq" target="_blank">
+                            CoNEXT EPIQ'18 workshop
+                        </a>. <a href="https://arxiv.org/pdf/1810.09134" target="_blank">
+                            A version on arXiv.org is already accessible
+                        </a>.
+                    </p>
+
+                    <h4>What is the purpose of this effort ?</h4>
+                    <p>
+                        This work is part of the research efforts of the <a href="https://inl.info.ucl.ac.be/" target="_blank">
+                            IP Networking Lab
+                        </a> at <a href="https://uclouvain.be" target="_blank">UCLouvain</a>. Is is partially supported
+                        by funding from the Walloon Government (DGO6) within the MQUIC project.
                     </p>
 
                     <p>
                         <b> All the code for this website and the tools it runs is available at
-                            <a href="https://github.com/mpiraux/master-thesis/" target="_blank">
-                                https://github.com/mpiraux/master-thesis/
+                            <a href="https://github.com/QUIC-Tracker" target="_blank">
+                                https://github.com/QUIC-Tracker
                             </a>
                         </b>
                     </p>
@@ -59,7 +71,7 @@
 {% block js %}
     {{ super() }}
     <script type="text/javascript" language="javascript">
-        const coded = "s2P8sz.H8F21P@YD1UzLD.1p0b1V28L.mz";
+        const coded = "KDNPKa.oP9DqN@qAe1qpDPs.6a";
         const key = "BWI0wU1NAfEkKtbPp9MSsa58VFQZLz3lXdu4OCRy6joxcGJDmgHivrY2ne7Tqh";
         const shift = coded.length;
         var link = "";
@@ -74,6 +86,6 @@
                 link += (key.charAt(ltr));
             }
         }
-        $('.box-body').append("You can provide me feedback on GitHub or via email at <a href='mailto:" + link + "'>"+ link +"</a>.");
+        $('.box-body').append("You can provide me feedback on GitHub or via email at <a href='mailto:" + link + "'>" + link + "</a>.");
     </script>
 {% endblock %}
