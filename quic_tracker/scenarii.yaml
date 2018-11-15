@@ -50,15 +50,17 @@ ack_only:
 address_validation:
   name: Address validation
   description: |
-    This test verifies that the server is validating the client address using the Client Address Validation Procedure and does not send more than three UDP datagrams. The test sends an Initial packet and then intentionally does not reply to any packet received.
+    This test verifies that the server is validating the client address using the Client Address Validation Procedure and does not send more than three times the amount of data sent by the test. The test sends an Initial packet and then intentionally does not reply to any packet received. After 3 seconds of inactivity during which no violation has been observed, the test issues ACKs to the received packets and completes the handshake.
   error_codes:
     1: The handshake did not complete
     2: The host sent more than three UDP datagrams without address validation
+    3: The host sent more than three times the initial amount of data sent
   error_types:
     error:
       - 1
     failure:
       - 2
+      - 3
   tags:
     - post-handshake
 connection_migration:
