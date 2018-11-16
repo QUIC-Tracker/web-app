@@ -390,7 +390,7 @@ http3_get:
   error_codes:
     1: The TLS handshake failed
     2: The HTTP/3 request timed out
-    3: No enough unidirectional streams available
+    3: Not enough unidirectional streams available
   error_types:
     error:
       - 1
@@ -400,6 +400,36 @@ http3_get:
   tags:
     - post-handshake
     - http3
+http3_encoder_stream:
+  name: HTTP/3 Encoder stream
+  description: This test ensures that the server is able to process the client encoder stream by encoding the request headers such that a table update is issued.
+  error_codes:
+    1: The TLS handshake failed
+    2: The HTTP/3 request timed out
+    3: Not enough unidirectional streams available
+    4: No <code>SETTINGS</code> were received
+  error_types:
+    error:
+    - 1
+    - 3
+    - 4
+    failure:
+    - 2
+http3_uni_streams_limits:
+  name: HTTP/3 Unidirectional streams limits
+  description: This test verifies that the server is able to comply with only a single unidirectional stream available when performing HTTP/3, and thus is able to use the static QPACK table only.
+  error_codes:
+    1: The TLS handshake failed
+    2: The HTTP/3 request timed out
+    3: Not enough unidirectional streams available
+    4: The server opened more streams than allowed
+  error_types:
+    error:
+    - 1
+    - 3
+    - 4
+    failure:
+    - 2
 http_get:
   name: CLI HTTP GET
   description: ~
