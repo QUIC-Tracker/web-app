@@ -102,6 +102,7 @@
                     <ul class="nav navbar-nav">
                         <li class="{{ 'active' if 'traces' in request.path else '' }}"><a href="{{ url_for('test_suite') }}">Test suite</a></li>
                         <li class="{{ 'active' if 'grid' in request.path else '' }}"><a href="{{ url_for('latest_grid') }}">Results grid</a></li>
+                        <li class=""><a href="https://quic-tracker.info.ucl.ac.be/blog">Blog</a></li>
                         <li class="{{ 'active' if 'about' in request.path else '' }}"><a href="{{ url_for('about') }}">About</a></li>
                         {% if allow_upload %}
                         <li><a data-toggle="modal" data-target="#post-trace-modal"><i class="fa fa-plus"></i></a></li>
