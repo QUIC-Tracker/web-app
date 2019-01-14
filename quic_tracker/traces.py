@@ -46,14 +46,14 @@ def get_type(packet):  # TODO: Modularise this on a per version basis
             return '1-RTT Protected Payload'
         elif field == 'Long Packet Type':
             value = int(value, base=0)
-            if value == 0x7f:
+            if value == 0x7f or value == 0x00:
                 return 'Initial'
-            elif value == 0x7e:
-                return 'Retry'
-            elif value == 0x7d:
-                return 'Handshake'
-            elif value == 0x7c:
+            elif value == 0x7c or value == 0x01:
                 return '0-RTT Protected'
+            elif value == 0x7d or value == 0x02:
+                return 'Handshake'
+            elif value == 0x7e or value == 0x03:
+                return 'Retry'
     return 'Version Negotiation'
 
 

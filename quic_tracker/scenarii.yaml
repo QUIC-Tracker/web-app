@@ -415,6 +415,9 @@ http3_encoder_stream:
     - 4
     failure:
     - 2
+  tags:
+  - post-handshake
+  - http3
 http3_uni_streams_limits:
   name: HTTP/3 Unidirectional streams limits
   description: This test verifies that the server is able to comply with only a single unidirectional stream available when performing HTTP/3, and thus is able to use the static QPACK table only.
@@ -430,6 +433,9 @@ http3_uni_streams_limits:
     - 4
     failure:
     - 2
+  tags:
+  - post-handshake
+  - http3
 http_get:
   name: CLI HTTP GET
   description: ~
