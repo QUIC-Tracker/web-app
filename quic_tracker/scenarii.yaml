@@ -254,6 +254,8 @@ new_connection_id:
       - 2
     failure:
       - 3
+      - 5
+    success:
       - 4
   tags:
     - post-handshake
