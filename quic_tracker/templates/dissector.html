@@ -15,6 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #}
 {% extends 'base.html' %}
+{% set qvis_base_url = 'https://quicvis.edm.uhasselt.be:8443/#' %}
 {% block header %}
     <div class="btn-group pull-right">
         {% if previous %}
@@ -141,6 +142,20 @@
                             {% endif %}
                         </ul>
                     </li>
+                    {% if pcap_link and secrets_link %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            QVis <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ '{}?file={}&secrets={}'.format(qvis_base_url, pcap_link, secrets_link) }}">
+                                    Visualise this test run
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="results">
