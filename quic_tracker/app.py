@@ -105,7 +105,8 @@ def dissector(traces_id, trace_idx):
                            decrypted_pcap_link=url_for('trace_decrypted_pcap', traces_id=traces_id, trace_idx=trace_idx) if trace.get('decrypted_pcap') else None,
                            previous=url_for('dissector', traces_id=previous_id, trace_idx=previous_trace_idx) if previous_trace_idx is not None else '',
                            next=url_for('dissector', traces_id=next_id, trace_idx=next_trace_idx) if next_trace_idx is not None else '',
-                           secrets_link=url_for('trace_secrets', traces_id=traces_id, trace_idx=trace_idx, _external=True) if trace.get('secrets') else None)
+                           secrets_link=url_for('trace_secrets', traces_id=traces_id, trace_idx=trace_idx, _external=True) if trace.get('secrets') else None,
+                           qvis_list_link=url_for('qvis_list', traces_id=traces_id, host=trace['host'], _external=True))
 
 
 @app.route('/grid')
@@ -237,6 +238,26 @@ def trace_secrets(traces_id, trace_idx):
     response.headers.set('Content-type', 'text/plain')
     response.headers.set('Content-Disposition', 'attachment', filename='{}_{}_{}.keys'.format(traces_id, trace['scenario'], trace['host'][:trace['host'].rfind(':')]))
     return response
+
+
+@app.route('/traces/<int:traces_id>/list/<host>')
+def qvis_list(traces_id, host):
+    traces = get_traces(traces_id)
+    if traces is None:
+        abort(404)
+
+    host_traces = [(i, t) for i, t in enumerate(traces) if t['host'] == host and t.get('pcap') and t.get('secrets')]
+
+    return jsonify({
+        'description': 'QUIC-Tracker test results for {} on {}'.format(
+            host_traces[0][1]['host'], datetime.fromtimestamp(host_traces[0][1]['started_at']).date()
+        ),
+        'paths': [
+            {'capture': url_for('trace_pcap', traces_id=traces_id, trace_idx=i, _external=True),
+             'secrets': url_for('trace_secrets', traces_id=traces_id, trace_idx=i, _external=True),
+             'description': 'QUIC-Tracker {} test for {} on {}'.format(t['scenario'], t['host'], datetime.fromtimestamp(t['started_at']))} for i, t in host_traces
+        ]
+    })
 
 
 if __name__ == '__main__':

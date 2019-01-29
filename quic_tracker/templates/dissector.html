@@ -147,10 +147,15 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             QVis <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                <a href="{{ '{}?file={}&secrets={}'.format(qvis_base_url, pcap_link, secrets_link) }}">
-                                    Visualise this test run
+                                <a href="{{ '{}?file={}&secrets={}'.format(qvis_base_url, pcap_link, secrets_link) }}" target="_blank">
+                                    Visualise this trace
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ '{}?list={}'.format(qvis_base_url, qvis_list_link) }}" target="_blank">
+                                    Visualise all scenarios traces for this endpoint
                                 </a>
                             </li>
                         </ul>
