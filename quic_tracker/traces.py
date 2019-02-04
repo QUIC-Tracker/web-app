@@ -73,7 +73,7 @@ def get_traces(trace_id):
     file_path = join_root('traces', '{:08d}'.format(trace_id) + os.extsep + 'json')
     if not os.path.exists(file_path):
         return None
-    with open(file_path) as f:
+    with open(file_path, encoding='utf-8') as f:
         return json.load(f)
 
 
