@@ -55,9 +55,11 @@ address_validation:
     1: The handshake did not complete
     2: The host sent more than three UDP datagrams without address validation
     3: The host sent more than three times the initial amount of data sent
+    4: The host timed out
   error_types:
     error:
       - 1
+      - 4
     failure:
       - 2
       - 3
