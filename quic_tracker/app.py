@@ -120,6 +120,45 @@ def latest_grid():
     abort(404)
 
 
+scenarii_groups = {
+    'Handshake': {
+        'handshake',
+        'handshake_v6',
+        'zero_rtt',
+        'transport_parameters',
+        'unsupported_tls_version',
+        'padding',
+        'version_negotiation',
+        'address_validation',
+        'key_update',
+    },
+    'ACKs': {
+        'ack_only',
+        'ack_ecn',
+    },
+    'Streams': {
+        'http_get_and_wait',
+        'http_get_on_uni_stream',
+        'multi_stream',
+        'stop_sending_frame_on_receive_stream',
+        'stream_opening_reordering',
+        'flow_control',
+    },
+    'Migration': {
+        'connection_migration',
+        'new_connection_id',
+        'retire_connection_id',
+    },
+    'HTTP/3': {
+        'http3_get',
+        'http3_encoder_stream',
+        'http3_uni_streams_limits',
+    }
+}
+
+scenarii_groups_sorted = ['Handshake', 'ACKs', 'Streams', 'Migration', 'HTTP/3']
+
+
 @app.route('/grid/<int:traces_id>')
 def grid(traces_id):
     traces = get_traces(traces_id)
@@ -136,12 +175,22 @@ def grid(traces_id):
         d.append((i, t))
         scenarii_results[t['scenario']] = d
 
-    cells = []
-    for s in reversed(sorted(scenarii_results)):
-        s_traces = sorted(scenarii_results[s], key=lambda t: t[1]['host'])
-        cells.append([(i, s, t['host'], t['error_code']) for i, t in s_traces])
+    scenarii_sorted = []
 
-    cells = list(zip(*reversed(cells)))
+    for s in scenarii_groups_sorted:
+        scenarii_sorted.extend(sorted(scenarii_groups[s]))
+
+    scenarii_sorted = list(filter(lambda x: x in scenarii_results, scenarii_sorted))
+
+    cells = []
+    for s in scenarii_sorted:
+        s_traces = sorted(scenarii_results[s], key=lambda t: t[1]['host'])
+        cells.append([(i, s, t['host'], t['error_code'], error_class(t['error_code'], scenarii[s])) for i, t in s_traces])
+
+    cells = list(zip(*cells))
+
+    permutation = list(sorted(range(len(cells)), key=lambda x: sum(c == 'success' for *i, c in cells[x]) - sum(c == 'failure' for *i, c in cells[x]), reverse=True))
+    cells = [cells[i] for i in permutation]
 
     return render_template('grid.html', traces_id=traces_id, date=datetime.strptime('{:08d}'.format(traces_id), '%Y%m%d').date(),
                            cells=cells, scenarii=scenarii)

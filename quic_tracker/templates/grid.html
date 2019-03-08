@@ -101,9 +101,9 @@
                     <tr>
                         <th>{{ row[0][2] }}</th>
                         {% for c in row %}
-                            {% set id, s, _, code = c %}
+                            {% set id, s, _, code, class = c %}
                             {% set scenario = scenarii[s] %}
-                            <td class="result result-{{ code|error_class(scenario) }}" data-tooltip="tooltip" title="{{ print_test_error_code(code, scenario) }}" data-container="body">
+                            <td class="result result-{{ class }}" data-tooltip="tooltip" title="{{ print_test_error_code(code, scenario) }}" data-container="body">
                                 <a href="{{ url_for('dissector', traces_id=traces_id, trace_idx=id) }}">
                                     <div></div>
                                 </a>
