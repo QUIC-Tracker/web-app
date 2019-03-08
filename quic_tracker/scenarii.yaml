@@ -93,15 +93,15 @@ flow_control:
     1: The handshake did not complete
     2: The host sent more data than the offset advertised
     3: The host did not resume sending after increasing the limit
-    4: No enough data was available to perform the test
+    4: Not enough data was available to perform the test
     5: No <code>STREAM_BLOCKED</code> or <code>BLOCKED</code> frame were received
   error_types:
     error:
       - 1
+      - 4
     failure:
       - 2
       - 3
-      - 4
     success:
       - 5  # This was erroneously marked as an error
   tags:
