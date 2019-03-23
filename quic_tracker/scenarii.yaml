@@ -456,6 +456,19 @@ http3_reserved_frames:
   tags:
   - post-handshake
   - http3
+spin_bit:
+  name: Spin bit
+  description: This test sets the Spin bit as recommended and checks whether the endpoint spins it accordingly.
+  error_codes:
+    1: The handshake did not complete
+    2: The endpoint does not spin the bit
+  error_types:
+    error:
+    - 1
+    failure:
+    - 2
+  tags:
+  - post-handshake
 http_get:
   name: CLI HTTP GET
   description: ~
