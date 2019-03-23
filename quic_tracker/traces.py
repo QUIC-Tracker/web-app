@@ -69,8 +69,8 @@ def get_number_packet(packet):
     return None
 
 
-def get_traces(trace_id):
-    file_path = join_root('traces', '{:08d}'.format(trace_id) + os.extsep + 'json')
+def get_traces(trace_id, misc=False):
+    file_path = join_root('traces' if not misc else 'misc', ('{:08d}'.format(trace_id) if not misc else trace_id) + os.extsep + 'json')
     if not os.path.exists(file_path):
         return None
     with open(file_path, encoding='utf-8') as f:

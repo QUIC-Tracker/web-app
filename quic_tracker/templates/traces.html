@@ -36,7 +36,7 @@
                 <tbody>
                 {% for trace in traces %}
                     {% set scenario_description = scenarii[trace.scenario] %}
-                    <tr data-href="{{ url_for('dissector', traces_id=traces_id, trace_idx=loop.index0) }}">
+                    <tr data-href="{{ url_for('dissector' if traces_id is number else 'dissector_misc', traces_id=traces_id, trace_idx=loop.index0) }}">
                         <td>{{ loop.index }}</td>
                         <td>{{ trace.host }}</td>
                         <td>{{ scenario_description.name }}</td>

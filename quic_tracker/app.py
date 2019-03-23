@@ -77,6 +77,18 @@ def traces(traces_id):
     return render_template('traces.html', traces_id=traces_id, traces=traces, date=datetime.strptime('{:08d}'.format(traces_id), '%Y%m%d').date(), scenarii=scenarii)
 
 
+@app.route('/traces/misc/<traces_id>')
+def misc_traces(traces_id):
+    traces = get_traces(traces_id, misc=True)
+    if traces is None:
+        abort(404)
+
+    with open(join_root('scenarii.yaml')) as f:
+        scenarii = yaml.load(f)
+
+    return render_template('traces.html', traces_id=traces_id, traces=traces, date=datetime.strptime('{:08d}'.format(int(traces_id.split('_')[1])), '%Y%m%d').date(), scenarii=scenarii)
+
+
 @app.route('/traces/<int:traces_id>/<int:trace_idx>')
 def dissector(traces_id, trace_idx):
     traces = get_traces(traces_id)
@@ -107,6 +119,26 @@ def dissector(traces_id, trace_idx):
                            next=url_for('dissector', traces_id=next_id, trace_idx=next_trace_idx) if next_trace_idx is not None else '',
                            secrets_link=url_for('trace_secrets', traces_id=traces_id, trace_idx=trace_idx, _external=True) if trace.get('secrets') else None,
                            qvis_list_link=url_for('qvis_list', traces_id=traces_id, host=trace['host'], _external=True))
+
+
+@app.route('/traces/misc/<traces_id>/<int:trace_idx>')
+def dissector_misc(traces_id, trace_idx):
+    traces = get_traces(traces_id, misc=True)
+    if traces is None:
+        abort(404)
+
+    with open(join_root('scenarii.yaml')) as f:
+        scenarii = yaml.load(f)
+
+    trace = parse_trace(traces[trace_idx])
+
+    return render_template('dissector.html', trace=trace, scenario=scenarii[trace['scenario']],
+                           pcap_link='',
+                           decrypted_pcap_link='',
+                           previous='',
+                           next='',
+                           secrets_link='',
+                           qvis_list_link='')
 
 
 @app.route('/grid')
