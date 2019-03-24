@@ -176,6 +176,7 @@ scenarii_groups = {
         'stop_sending_frame_on_receive_stream',
         'stream_opening_reordering',
         'flow_control',
+        'overlapping_stream_frames',
     },
     'Migration': {
         'connection_migration',
