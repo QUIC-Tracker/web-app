@@ -177,6 +177,7 @@ scenarii_groups = {
         'stream_opening_reordering',
         'flow_control',
         'overlapping_stream_frames',
+        'server_flow_control',
     },
     'Migration': {
         'connection_migration',

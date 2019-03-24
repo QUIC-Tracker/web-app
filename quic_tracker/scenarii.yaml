@@ -482,6 +482,17 @@ overlapping_stream_frames:
     1: The handshake did not complete
     2: The stream buffer was modified
     3: One or more requests timed out
+server_flow_control:
+  name: Server Flow control violation
+  description: This test sends stream data past the server announced limits for client-initiated bidirectional streams. The test succeeds if the endpoint closes the connection.
+  error_types:
+    error:
+    - 1
+    failure:
+    - 2
+  error_codes:
+    1: The handshake did not complete
+    2: The endpoint did not close the connection
 http_get:
   name: CLI HTTP GET
   description: ~
