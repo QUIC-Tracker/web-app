@@ -188,7 +188,8 @@ scenarii_groups = {
         'http3_get',
         'http3_encoder_stream',
         'http3_uni_streams_limits',
-        'http3_reserved_frames'
+        'http3_reserved_frames',
+        'http3_reserved_streams'
     }
 }
 

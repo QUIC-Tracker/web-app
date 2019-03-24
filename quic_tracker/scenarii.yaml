@@ -456,6 +456,22 @@ http3_reserved_frames:
   tags:
   - post-handshake
   - http3
+http3_reserved_streams:
+  name: HTTP/3 Reserved streams
+  description: ~
+  error_codes:
+    1: The handshake did not complete
+    2: The HTTP/3 request timed out
+    3: Not enough unidirectional streams available
+  error_types:
+    error:
+    - 1
+    - 3
+    failure:
+    - 2
+  tags:
+  - post-handshake
+  - http3
 spin_bit:
   name: Spin bit
   description: This test sets the Spin bit as recommended and checks whether the endpoint spins it accordingly.
