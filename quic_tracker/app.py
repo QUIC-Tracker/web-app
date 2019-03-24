@@ -163,6 +163,7 @@ scenarii_groups = {
         'version_negotiation',
         'address_validation',
         'key_update',
+        'spin_bit',
     },
     'ACKs': {
         'ack_only',
@@ -185,6 +186,7 @@ scenarii_groups = {
         'http3_get',
         'http3_encoder_stream',
         'http3_uni_streams_limits',
+        'http3_reserved_frames'
     }
 }
 
