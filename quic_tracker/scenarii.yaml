@@ -66,7 +66,7 @@ address_validation:
   tags:
     - post-handshake
 connection_migration:
-  name: Connection Migration
+  name: NAT Rebinding
   description: |
     This test performs and handshake and then replace its UDP connection with a new one 3 seconds after the connection is established. It will change the source port used to communicate with the host. Then it will open stream 0 to perform an HTTP/0.9 GET request and check if the host respond through this new connection. The host is also checked to validate the new path using <code>PATH_CHALLENGE</code>.
   error_codes:
@@ -509,6 +509,27 @@ server_flow_control:
   error_codes:
     1: The handshake did not complete
     2: The endpoint did not close the connection
+connection_migration_v4_v6:
+  name: Connection Migration IPv4 to IPv6
+  description: This test initiates a connection migration to IPv6 three seconds after the handshake completed. It will not initiate the migration of no new connection IDs are provided by the endpoint. A new CID is be used when migrating and the endpoint is checked to change its DCID to the one provided by the test.
+  error_codes:
+    1: The TLS handshake failed
+    2: Another UDP connection could not be established
+    3: The endpoint did not respond through the new connection
+    4: The endpoint did respond on the new path but it did not validate it using <code>PATH_CHALLENGE</code> frames
+    5: The endpoint did not provide new connection IDs
+    6: When migrating, the endpoint did not adapt its DCID to the one provied
+  error_types:
+    error:
+    - 1
+    - 2
+    - 5
+    failure:
+    - 3
+    - 4
+    - 6
+  tags:
+  - post-handshake
 http_get:
   name: CLI HTTP GET
   description: ~

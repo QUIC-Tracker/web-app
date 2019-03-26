@@ -181,6 +181,7 @@ scenarii_groups = {
     },
     'Migration': {
         'connection_migration',
+        'connection_migration_v4_v6',
         'new_connection_id',
         'retire_connection_id',
     },
