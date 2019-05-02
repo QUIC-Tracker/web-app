@@ -95,10 +95,12 @@ flow_control:
     3: The host did not resume sending after increasing the limit
     4: Not enough data was available to perform the test
     5: No <code>STREAM_BLOCKED</code> or <code>BLOCKED</code> frame were received
+    6: The endpoint does not support <code>hq</code>
   error_types:
     error:
       - 1
       - 4
+      - 6
     failure:
       - 2
       - 3
@@ -173,10 +175,12 @@ http_get_and_wait:
     8: The test could not be performed
     9: The host didn't send the requested data on stream 0
     10: The host responded on stream 0 despite advertising a smaller <code>initial_max_bidi_streams</code>
+    11: The endpoint does not support <code>hq</code>
   error_types:
     error:
       - 1
       - 8
+      - 11
     failure:
       - 2
       - 4
@@ -199,10 +203,12 @@ http_get_on_uni_stream:
     4: The host sent back data on a stream ID greater than the announced <code>initial_max_uni_streams</code>
     5: Answered to a query made on a forbidden stream, i.e. a stream with an ID higher than advertised <code>initial_max_uni_streams</code>
     6: The host advertised a too low <code>initial_max_uni_streams</code>, but it did not close the connection when stream 2 was opened
+    7: The endpoint does not support <code>hq</code>
   error_types:
     error:
       - 1
       - 2
+      - 7
     failure:
       - 3
       - 4
@@ -289,6 +295,8 @@ retire_connection_id:
     failure:
       - 3
       - 4
+  tags:
+    - post-handshake
 stop_sending_frame_on_receive_stream:
   name: STOP_SENDING frame on a receive stream
   description: |
@@ -381,9 +389,11 @@ stream_opening_reordering:
   error_codes:
     1: The TLS handshake failed
     2: The host did not answer to the <code>GET</code> request
+    3: The endpoint does not support <code>hq</code>
   error_types:
     error:
       - 1
+      - 3
     failure:
       - 2
   tags:
@@ -498,9 +508,11 @@ overlapping_stream_frames:
     1: The handshake did not complete
     2: The stream buffer was modified
     3: One or more requests timed out
+  tags:
+  - post-handshake
 server_flow_control:
   name: Server Flow control violation
-  description: This test sends stream data past the server announced limits for client-initiated bidirectional streams. The test succeeds if the endpoint closes the connection.
+  description: This test sends stream data past the server announced limits for client-initiated bidirectional streams. The test succeeds if the endpoint closes the connection with the correct error code.
   error_types:
     error:
     - 1
@@ -508,13 +520,15 @@ server_flow_control:
     - 2
   error_codes:
     1: The handshake did not complete
-    2: The endpoint did not close the connection
+    2: The endpoint did not close the connection with the correct error code.
+  tags:
+  - post-handshake
 connection_migration_v4_v6:
   name: Connection Migration IPv4 to IPv6
   description: This test initiates a connection migration to IPv6 three seconds after the handshake completed. It will not initiate the migration of no new connection IDs are provided by the endpoint. A new CID is be used when migrating and the endpoint is checked to change its DCID to the one provided by the test.
   error_codes:
     1: The TLS handshake failed
-    2: Another UDP connection could not be established
+    2: The UDP over IPv6 connection could not be established
     3: The endpoint did not respond through the new connection
     4: The endpoint did respond on the new path but it did not validate it using <code>PATH_CHALLENGE</code> frames
     5: The endpoint did not provide new connection IDs
