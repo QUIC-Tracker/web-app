@@ -256,10 +256,12 @@ new_connection_id:
     3: When using the first of the alternative connection IDs, the host stopped responding
     4: When using the first of the alternative connection IDs, the host responded without changing the connection ID
     5: The host sent a connection ID with an invalid length
+    6: The endpoint is not willing to store CIDs in advance
   error_types:
     error:
       - 1
       - 2
+      - 6
     failure:
       - 3
       - 5
@@ -532,12 +534,16 @@ connection_migration_v4_v6:
     3: The endpoint did not respond through the new connection
     4: The endpoint did respond on the new path but it did not validate it using <code>PATH_CHALLENGE</code> frames
     5: The endpoint did not provide new connection IDs
-    6: When migrating, the endpoint did not adapt its DCID to the one provied
+    6: When migrating, the endpoint did not adapt its DCID to the one provided
+    7: Client migration is not allowed by the endpoint
+    8: The endpoint is not willing to store CIDs in advance
   error_types:
     error:
     - 1
     - 2
     - 5
+    - 7
+    - 8
     failure:
     - 3
     - 4
