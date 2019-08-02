@@ -300,11 +300,11 @@ def trace_decrypted_pcap(traces_id, trace_idx):
 
 
 secret_labels = {
-    (1, False): 'QUIC_CLIENT_EARLY_TRAFFIC_SECRET',
-    (2, False): 'QUIC_CLIENT_HANDSHAKE_TRAFFIC_SECRET',
-    (2, True): 'QUIC_SERVER_HANDSHAKE_TRAFFIC_SECRET',
-    (3, False): 'QUIC_CLIENT_TRAFFIC_SECRET_0',
-    (3, True): 'QUIC_SERVER_TRAFFIC_SECRET_0',
+    (1, False): 'CLIENT_EARLY_TRAFFIC_SECRET',
+    (2, False): 'CLIENT_HANDSHAKE_TRAFFIC_SECRET',
+    (2, True): 'SERVER_HANDSHAKE_TRAFFIC_SECRET',
+    (3, False): 'CLIENT_TRAFFIC_SECRET_0',
+    (3, True): 'SERVER_TRAFFIC_SECRET_0',
 }
 
 
