@@ -550,6 +550,16 @@ connection_migration_v4_v6:
     - 6
   tags:
   - post-handshake
+zero_length_cid:
+  name: Zero Length CID
+  description: This test initiates a connection with a zero-length Source CID. It verifies that the server is able to complete the connection establishment and serve a single HTTP request.
+  error_codes:
+    1: The TLS handshake failed
+    2: The HTTP request timed out
+  error_types:
+    failure:
+      - 1
+      - 2
 http_get:
   name: CLI HTTP GET
   description: ~

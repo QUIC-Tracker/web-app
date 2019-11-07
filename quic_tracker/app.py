@@ -164,6 +164,7 @@ scenarii_groups = {
         'address_validation',
         'key_update',
         'spin_bit',
+        'zero_length_cid',
     },
     'ACKs': {
         'ack_only',
