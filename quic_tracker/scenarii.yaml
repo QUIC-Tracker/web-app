@@ -560,6 +560,16 @@ zero_length_cid:
     failure:
       - 1
       - 2
+multi_packet_client_hello:
+  name: Multi-packet ClientHello
+  description: This test splits the ClientHello blob into two separate Initial packets. It verifies that the server is able to complete the connection establishment and serve a single HTTP request.
+  error_codes:
+    1: The TLS handshake failed
+    2: The HTTP request timed out
+  error_types:
+    failure:
+    - 1
+    - 2
 http_get:
   name: CLI HTTP GET
   description: ~

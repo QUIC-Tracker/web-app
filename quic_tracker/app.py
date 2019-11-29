@@ -165,6 +165,7 @@ scenarii_groups = {
         'key_update',
         'spin_bit',
         'zero_length_cid',
+        'multi_packet_client_hello',
     },
     'ACKs': {
         'ack_only',
