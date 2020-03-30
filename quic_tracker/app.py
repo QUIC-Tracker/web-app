@@ -115,6 +115,7 @@ def dissector(traces_id, trace_idx):
     return render_template('dissector.html', trace=trace, scenario=scenarii[trace['scenario']],
                            pcap_link=url_for('trace_pcap', traces_id=traces_id, trace_idx=trace_idx, _external=True) if trace.get('pcap') else None,
                            decrypted_pcap_link=url_for('trace_decrypted_pcap', traces_id=traces_id, trace_idx=trace_idx) if trace.get('decrypted_pcap') else None,
+                           qlog_link=url_for('trace_qlog', traces_id=traces_id, trace_idx=trace_idx, _external=True) if trace.get('qlog') else None,
                            previous=url_for('dissector', traces_id=previous_id, trace_idx=previous_trace_idx) if previous_trace_idx is not None else '',
                            next=url_for('dissector', traces_id=next_id, trace_idx=next_trace_idx) if next_trace_idx is not None else '',
                            secrets_link=url_for('trace_secrets', traces_id=traces_id, trace_idx=trace_idx, _external=True) if trace.get('secrets') else None,
@@ -135,6 +136,7 @@ def dissector_misc(traces_id, trace_idx):
     return render_template('dissector.html', trace=trace, scenario=scenarii[trace['scenario']],
                            pcap_link='',
                            decrypted_pcap_link='',
+                           qlog_link='',
                            previous='',
                            next='',
                            secrets_link='',
@@ -269,6 +271,7 @@ if os.environ.get('QUIC_TRACKER_ALLOW_UPLOAD', '0') != '0':
             return render_template('dissector.html', trace=trace, scenario=scenarii[trace['scenario']],
                                    pcap_link=None,
                                    decrypted_pcap_link=None,
+                                   qlog_link=None,
                                    previous=None,
                                    next=None,
                                    secrets_link=None)
@@ -329,22 +332,33 @@ def trace_secrets(traces_id, trace_idx):
     return response
 
 
+@app.route('/traces/<int:traces_id>/<int:trace_idx>/qlog')
+def trace_qlog(traces_id, trace_idx):
+    traces = get_traces(traces_id)
+    if traces is None:
+        abort(404)
+
+    trace = traces[trace_idx]
+    return jsonify(trace.get('qlog', {}))
+
+
 @app.route('/traces/<int:traces_id>/list/<host>')
 def qvis_list(traces_id, host):
     traces = get_traces(traces_id)
     if traces is None:
         abort(404)
 
-    host_traces = [(i, t) for i, t in enumerate(traces) if t['host'] == host and t.get('pcap') and t.get('secrets')]
+    host_traces = [(i, t, bool(t.get('qlog'))) for i, t in enumerate(traces) if t['host'] == host and ((t.get('pcap') and t.get('secrets')) or t.get('qlog'))]
 
     return jsonify({
         'description': 'QUIC-Tracker test results for {} on {}'.format(
             host_traces[0][1]['host'], datetime.fromtimestamp(host_traces[0][1]['started_at']).date()
         ),
         'paths': [
-            {'capture': url_for('trace_pcap', traces_id=traces_id, trace_idx=i, _external=True),
-             'secrets': url_for('trace_secrets', traces_id=traces_id, trace_idx=i, _external=True),
-             'description': 'QUIC-Tracker {} test for {} on {}'.format(t['scenario'], t['host'], datetime.fromtimestamp(t['started_at']))} for i, t in host_traces
+            {'capture': url_for('trace_pcap', traces_id=traces_id, trace_idx=i, _external=True) if not has_qlog else
+                        url_for('trace_qlog', traces_id=traces_id, trace_idx=i, _external=True),
+             'secrets': url_for('trace_secrets', traces_id=traces_id, trace_idx=i, _external=True) if not has_qlog else '',
+             'description': 'QUIC-Tracker {} test for {} on {}'.format(t['scenario'], t['host'], datetime.fromtimestamp(t['started_at']))} for i, t, has_qlog in host_traces
         ]
     })
 

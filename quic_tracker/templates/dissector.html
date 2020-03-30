@@ -149,9 +149,15 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                <a href="{{ '{}?file={}&secrets={}'.format(qvis_base_url, pcap_link, secrets_link) }}" target="_blank">
-                                    Visualise this trace
-                                </a>
+                                {% if qlog_link %}
+                                    <a href="{{ '{}?file={}'.format(qvis_base_url, qlog_link) }}" target="_blank">
+                                        Visualise this trace
+                                    </a>
+                                {% else %}
+                                    <a href="{{ '{}?file={}&secrets={}'.format(qvis_base_url, pcap_link, secrets_link) }}" target="_blank">
+                                        Visualise this trace
+                                    </a>
+                                {% endif %}
                             </li>
                             <li>
                                 <a href="{{ '{}?list={}'.format(qvis_base_url, qvis_list_link) }}" target="_blank">
@@ -168,6 +174,7 @@
                         {% set _ = t.pop('stream', None) %}
                         {% set _ = t.pop('pcap', None) %}
                         {% set _ = t.pop('decrypted_pcap', None) %}
+                        {% set _ = t.pop('qlog', None) %}
                         <pre style="font-size: 10px;"><code>{{ t|pretty_json }}</code></pre>
                         {{ print_test_error_code(trace.error_code, scenario) }}
                     </div>
