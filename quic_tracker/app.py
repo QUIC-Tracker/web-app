@@ -332,7 +332,7 @@ def trace_secrets(traces_id, trace_idx):
     return response
 
 
-@app.route('/traces/<int:traces_id>/<int:trace_idx>/qlog')
+@app.route('/traces/<int:traces_id>/<int:trace_idx>/qt.qlog')
 def trace_qlog(traces_id, trace_idx):
     traces = get_traces(traces_id)
     if traces is None:
