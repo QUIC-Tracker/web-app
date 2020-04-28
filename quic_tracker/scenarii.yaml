@@ -570,6 +570,21 @@ multi_packet_client_hello:
     failure:
     - 1
     - 2
+closed_connection:
+  name: Closed Connection
+  description: This test initiates a connection then close it after a successful handshake. Then it waits for 8 sRTT before sending 3 <code>PING</code> frames spaced by 3 sRTT. The test records the packets that might be sent in response by the server. No particular behaviour is expected.
+  error_codes:
+    1: The TLS handshake failed
+    2: No packet was received
+    3: One or more packets were received
+  error_types:
+    failure:
+      - 1
+    success:
+      - 2
+      - 3
+  tags:
+    - post-handshake
 http_get:
   name: CLI HTTP GET
   description: ~
