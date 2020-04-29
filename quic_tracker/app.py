@@ -195,10 +195,13 @@ scenarii_groups = {
         'http3_uni_streams_limits',
         'http3_reserved_frames',
         'http3_reserved_streams'
+    },
+    'Others': {
+        'closed_connection'
     }
 }
 
-scenarii_groups_sorted = ['Handshake', 'ACKs', 'Streams', 'Migration', 'HTTP/3']
+scenarii_groups_sorted = ['Handshake', 'ACKs', 'Others', 'Streams', 'Migration', 'HTTP/3']
 
 
 @app.route('/grid/<int:traces_id>')
