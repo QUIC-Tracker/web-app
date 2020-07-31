@@ -23,9 +23,6 @@ from datetime import datetime
 import yaml
 from flask import Flask, jsonify, request, url_for, abort, make_response, redirect
 from flask.templating import render_template
-from sqlobject import LIKE
-from sqlobject import OR
-from sqlobject import sqlhub
 
 from quic_tracker.traces import get_traces, parse_trace, find_similar_trace_idx
 from quic_tracker.utils import find_latest_file, ByteArrayEncoder, is_tuple, decode, join_root, find_data_files, \
