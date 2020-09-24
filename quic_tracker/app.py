@@ -26,10 +26,14 @@ from flask.templating import render_template
 
 from quic_tracker.traces import get_traces, parse_trace, find_similar_trace_idx
 from quic_tracker.utils import find_latest_file, ByteArrayEncoder, is_tuple, decode, join_root, find_data_files, \
-    find_previous_file, find_next_file
+    find_previous_file, find_next_file, UrlPrefixMiddleware
 
 app = Flask(__name__)
 app.json_encoder = ByteArrayEncoder
+
+if 'URL_PREFIX' in os.environ:
+    app.wsgi_app = UrlPrefixMiddleware(app.wsgi_app, prefix=os.environ['URL_PREFIX'])
+
 app.jinja_env.filters['is_tuple'] = is_tuple
 app.jinja_env.filters['decode'] = decode
 app.jinja_env.filters['pretty_json'] = lambda x: json.dumps(x, indent=2, separators=(',', ':'))
@@ -242,7 +246,7 @@ def grid(traces_id):
 def error_class(code, scenario):
     error_types = scenario.get('error_types', {})
 
-    if code is 0:
+    if code == 0:
         return 'success'
 
     if code in (254, 255):
