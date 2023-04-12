@@ -73,7 +73,7 @@ def traces(traces_id):
         abort(404)
 
     with open(join_root('scenarii.yaml')) as f:
-        scenarii = yaml.load(f)
+        scenarii = yaml.safe_load(f)
 
     return render_template('traces.html', traces_id=traces_id, traces=traces, date=datetime.strptime('{:08d}'.format(traces_id), '%Y%m%d').date(), scenarii=scenarii)
 
@@ -85,7 +85,7 @@ def misc_traces(traces_id):
         abort(404)
 
     with open(join_root('scenarii.yaml')) as f:
-        scenarii = yaml.load(f)
+        scenarii = yaml.safe_load(f)
 
     return render_template('traces.html', traces_id=traces_id, traces=traces, date=datetime.strptime('{:08d}'.format(int(traces_id.split('_')[1])), '%Y%m%d').date(), scenarii=scenarii)
 
@@ -97,7 +97,7 @@ def dissector(traces_id, trace_idx):
         abort(404)
 
     with open(join_root('scenarii.yaml')) as f:
-        scenarii = yaml.load(f)
+        scenarii = yaml.safe_load(f)
 
     trace = parse_trace(traces[trace_idx])
 
@@ -130,7 +130,7 @@ def dissector_misc(traces_id, trace_idx):
         abort(404)
 
     with open(join_root('scenarii.yaml')) as f:
-        scenarii = yaml.load(f)
+        scenarii = yaml.safe_load(f)
 
     trace = parse_trace(traces[trace_idx])
 
@@ -212,7 +212,7 @@ def grid(traces_id):
         abort(404)
 
     with open(join_root('scenarii.yaml')) as f:
-        scenarii = yaml.load(f)
+        scenarii = yaml.safe_load(f)
 
     scenarii_results = {}
 
@@ -268,7 +268,7 @@ if os.environ.get('QUIC_TRACKER_ALLOW_UPLOAD', '0') != '0':
                 trace = trace[0]
 
             with open(join_root('scenarii.yaml')) as f:
-                scenarii = yaml.load(f)
+                scenarii = yaml.safe_load(f)
 
             trace = parse_trace(trace)
 
