@@ -73,7 +73,7 @@ def traces(traces_id):
         abort(404)
 
     with open(join_root('scenarii.yaml')) as f:
-        scenarii = yaml.load(f)
+        scenarii = yaml.safe_load(f)
 
     return render_template('traces.html', traces_id=traces_id, traces=traces, date=datetime.strptime('{:08d}'.format(traces_id), '%Y%m%d').date(), scenarii=scenarii)
 
